@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import logica.estuctural.Antecedente;
+import logica.estuctural.Ciudadano;
 import logica.estuctural.Ciudadano.TipoDocumento;
 import logica.Observer;
 import model.IServicioAntecedentes;
@@ -216,26 +217,28 @@ public class GUIAddAntecedente extends javax.swing.JFrame implements Cambiable{
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-   
+
         String info = jTextField6.getText().trim();
         Date fecha = jDateChooser1.getDate();
         String ciudad = jTextField8.getText().trim();
         String tipoCrimen = jTextField9.getText().trim();
         String cedula = jTextField5.getText().trim();
         TipoDocumento tipoDocumento = (TipoDocumento)jComboBox1.getSelectedItem();
-        
+
         Antecedente ant = new Antecedente(tipoCrimen, info, fecha, ciudad);
         observer.getUltimoCiudadano().addAntecedente(ant);
         try {
-            controller.aniadirAntecedenteCiudadano(ant, cedula, tipoDocumento);
-            observer.cambioEstado();
-            JOptionPane.showMessageDialog(this, "Antecedente a�adido correctamente");
+            if(info.isEmpty() || fecha != null || ciudad.isEmpty() || tipoCrimen.isBlank() || cedula.isEmpty()){
+                JOptionPane.showMessageDialog(this, "Existen valores vacíos, por favor intentelo de nuevo");
+            }else{
+                controller.aniadirAntecedenteCiudadano(ant, cedula, tipoDocumento);
+                observer.cambioEstado();
+                JOptionPane.showMessageDialog(this, "Antecedente añadido correctamente");
+            }
         } catch (RemoteException ex) {
             System.out.println(ex.getMessage());
         }
-        
-        
-        
+
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -244,12 +247,21 @@ public class GUIAddAntecedente extends javax.swing.JFrame implements Cambiable{
             String cedula;
             cedula = jTextField5.getText().trim();
             TipoDocumento tipoDocumento = (TipoDocumento)jComboBox1.getSelectedItem();
+            Ciudadano ciudadano = controller.darCiudadanoPorCedula(cedula, tipoDocumento);
             observer.setUltimoCiudadano(controller.darCiudadanoPorCedula(cedula, tipoDocumento));
             observer.cambioEstado();
-            if(observer.getUltimoCiudadano() != null)
-                JOptionPane.showMessageDialog(this, "Se selccion� el ciudadano " + observer.getUltimoCiudadano().getNombre() + " " + observer.getUltimoCiudadano().getApellido());
-            else
-                JOptionPane.showMessageDialog(this, "El ciudadano con la c�dula " + cedula + " no existe");
+            if(!cedula.isEmpty()){
+                if(ciudadano != null){
+                    if(observer.getUltimoCiudadano() != null)
+                        JOptionPane.showMessageDialog(this, "Se selccionó el ciudadano " + observer.getUltimoCiudadano().getNombre() + " " + observer.getUltimoCiudadano().getApellido());
+                    else
+                        JOptionPane.showMessageDialog(this, "El ciudadano con la cédula " + cedula + " no existe");
+                }else{
+                    JOptionPane.showMessageDialog(this, "El ciudadano con " + cedula + " \n" + " con el tipo de documento " + tipoDocumento + " \n" + " no existe, por favor intentelo de nuevo");
+                }
+            }else{
+                JOptionPane.showMessageDialog(this, "No ha sido digitado ningun número de identificación, \n por favor intentelo de nuevo");
+            }
         } catch (RemoteException ex) {
             Logger.getLogger(GUIAddAntecedente.class.getName()).log(Level.SEVERE, null, ex);
         }

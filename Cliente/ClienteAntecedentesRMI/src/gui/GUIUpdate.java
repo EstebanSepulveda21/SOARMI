@@ -237,12 +237,21 @@ public class GUIUpdate extends javax.swing.JFrame implements Cambiable{
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-       String cedula;
-       cedula = jTextField5.getText().trim();
-       TipoDocumento tipoDocumento = (TipoDocumento)jComboBox1.getSelectedItem();
+        String cedula;
+        cedula = jTextField5.getText().trim();
+        TipoDocumento tipoDocumento = (TipoDocumento)jComboBox1.getSelectedItem();
         try {
-            observer.setUltimoCiudadano(controller.darCiudadanoPorCedula(cedula, tipoDocumento));
-            observer.cambioEstado();
+            if(!cedula.isEmpty()){
+                Ciudadano ciudadano = controller.darCiudadanoPorCedula(cedula, tipoDocumento);
+                if(ciudadano != null){
+                    observer.setUltimoCiudadano(controller.darCiudadanoPorCedula(cedula, tipoDocumento));
+                    observer.cambioEstado();
+                }else{
+                    JOptionPane.showMessageDialog(this, "El ciudadano con " + cedula + " \n" + " con el tipo de documento " + tipoDocumento + " \n" + " no existe, por favor intentelo de nuevo");
+                }
+            }else{
+                JOptionPane.showMessageDialog(this, "No ha digitado nigun número de identificación, \n por favor intentelo de nuevo");
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -259,7 +268,7 @@ public class GUIUpdate extends javax.swing.JFrame implements Cambiable{
             Date fecha = jDateChooser1.getDate();
             String cedula = jTextField5.getText().trim();
             TipoDocumento tipoDocumento = (TipoDocumento)jComboBox1.getSelectedItem();
-                if(nombre.isEmpty() && apellido.isEmpty() && direccion.isEmpty() && cedula.isEmpty()) {
+                if(nombre.isEmpty() || apellido.isEmpty() || direccion.isEmpty() || cedula.isEmpty()) {
                     JOptionPane.showMessageDialog(this, "Existen valores vacíos, por favor intente de nuevo");
                 }
                 else{

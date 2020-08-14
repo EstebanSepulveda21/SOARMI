@@ -223,7 +223,7 @@ public class GUIAdd extends javax.swing.JFrame implements Cambiable{
                 Date fecha = jDateChooser1.getDate();
                 String cedula = jTextField5.getText().trim();
                 TipoDocumento tipoDocumento = (TipoDocumento)jComboBox1.getSelectedItem();
-            if(nombre.isEmpty() && apellido.isEmpty() && direccion.isEmpty() && cedula.isEmpty() && fecha!=null) {
+            if(nombre.isEmpty() || apellido.isEmpty() || direccion.isEmpty() || cedula.isEmpty() || fecha!=null) {
                 JOptionPane.showMessageDialog(this, "Existen valores vacíos, por favor intente de nuevo");
             }
             else{

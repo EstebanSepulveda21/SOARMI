@@ -10,6 +10,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+
+import logica.estuctural.Ciudadano;
 import logica.estuctural.Ciudadano.TipoDocumento;
 import logica.Observer;
 import model.IServicioAntecedentes;
@@ -149,10 +151,19 @@ public class GUIDelete extends javax.swing.JFrame implements Cambiable{
         try {
             // TODO add your handling code here:
             String cedula = jTextField5.getText();
-            TipoDocumento tipoDocumento = (TipoDocumento)jComboBox1.getSelectedItem();
-            controller.eliminarCiudadano(cedula, tipoDocumento);
-            observer.cambioEstado();
-            JOptionPane.showMessageDialog(this, "Ciudadano eliminado correctamente");
+            TipoDocumento tipoDocumento =  (TipoDocumento) jComboBox1.getSelectedItem();
+            Ciudadano ciudadano = controller.darCiudadanoPorCedula(cedula,tipoDocumento);
+            if(!cedula.isEmpty()) {
+                if (ciudadano != null) {
+                    controller.eliminarCiudadano(cedula, tipoDocumento);
+                    observer.cambioEstado();
+                    JOptionPane.showMessageDialog(this, "Ciudadano eliminado correctamente");
+                } else {
+                    JOptionPane.showMessageDialog(this, "El ciudadano con " + cedula + " \n" + " con el tipo de documento " + tipoDocumento + " \n" + " no existe, por favor intentelo de nuevo");
+                }
+            }else{
+                JOptionPane.showMessageDialog(this,"por favor digite el número de identificación");
+            }
         } catch (RemoteException ex) {
             System.out.println(ex.getMessage());
         }
