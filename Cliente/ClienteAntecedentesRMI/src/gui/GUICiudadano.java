@@ -63,7 +63,6 @@ public class GUICiudadano extends javax.swing.JFrame implements Cambiable {
 
         jTable1.setBackground(new java.awt.Color(229, 229, 229));
         jTable1.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(255, 255, 255)));
-        jTable1.setForeground(new java.awt.Color(0, 0, 0));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -97,7 +96,7 @@ public class GUICiudadano extends javax.swing.JFrame implements Cambiable {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        jButton1.setText("Generar Datos Prueba");
+        jButton1.setText("Actualizar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -154,13 +153,13 @@ public class GUICiudadano extends javax.swing.JFrame implements Cambiable {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
+//        try {
             // TODO add your handling code here
-            controller.datosPrueba();
+//            controller.datosPrueba();
             observer.cambioEstado();
-        } catch (RemoteException ex) {
-            System.out.println(ex.getMessage());
-        }
+//        } catch (RemoteException ex) {
+//            System.out.println(ex.getMessage());
+//        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     
