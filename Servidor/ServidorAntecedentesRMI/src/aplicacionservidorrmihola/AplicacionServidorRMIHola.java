@@ -8,7 +8,6 @@ package aplicacionservidorrmihola;
 import java.rmi.Naming;
 import java.rmi.registry.LocateRegistry;
 import model.ServicioAntecedentes;
-import model.ServicioHola;
 
 /**
  *

@@ -6,10 +6,22 @@
 package gui;
 
 
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 import logica.Observer;
+import logica.estuctural.Ciudadano;
 import model.IServicioAntecedentes;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.general.DefaultPieDataset;
 
 /**
  *
@@ -50,6 +62,7 @@ public class GUIMenu extends javax.swing.JFrame {
         jMenu5 = new javax.swing.JMenu();
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
@@ -173,6 +186,14 @@ public class GUIMenu extends javax.swing.JFrame {
             }
         });
         jMenu5.add(jMenuItem10);
+
+        jMenuItem1.setText("Grafica");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem1);
 
         jMenuBar1.add(jMenu5);
 
@@ -308,6 +329,36 @@ public class GUIMenu extends javax.swing.JFrame {
         gui.show();
     }//GEN-LAST:event_jMenuItem10ActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        try {
+            // TODO add your handling code here:
+            DefaultPieDataset dataSet = new DefaultPieDataset();
+            for(Ciudadano.TipoDocumento tipoDocumento : Ciudadano.TipoDocumento.values())
+            {
+                double count = 0;
+                for(Ciudadano ciudadano : controller.darCiudadanos())
+                {
+                    if(ciudadano.getTipoDocumento()==tipoDocumento)
+                        count++;
+                }
+                dataSet.setValue(tipoDocumento.name(), count);
+            }
+            
+            JFreeChart chart = ChartFactory.createPieChart("Frecuencia de documentos", dataSet, true, true, false);
+            ChartPanel panel = new ChartPanel(chart);
+            Border bordejpanel = new TitledBorder(new EtchedBorder(), "Gráfica");
+            panel.setBorder(bordejpanel);
+            JFrame ventana = new JFrame("");
+            ventana.setSize(800, 600);
+            ventana.setLocationRelativeTo(null);
+            ventana.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+            ventana.setVisible(true);
+            ventana.add(panel);
+        } catch (RemoteException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -353,6 +404,7 @@ public class GUIMenu extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
